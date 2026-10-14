@@ -142,7 +142,7 @@ SmartCart is an enterprise-grade full-stack e-commerce system built with **Sprin
 
 ## ⚙️ Configuration & Environment Variables
 
-### Backend Configuration (`ecommerce-backend/src/main/resources/application.properties`)
+### Backend Configuration (`smartcart-backend/src/main/resources/application.properties`)
 ```properties
 # Server
 server.port=8080
@@ -176,14 +176,14 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 ### 1. Start Backend
 ```bash
-cd ecommerce-backend
+cd smartcart-backend
 .\mvnw.cmd spring-boot:run
 ```
 The backend starts on `http://localhost:8080`.
 
 ### 2. Start Frontend
 ```bash
-cd ecommerce
+cd smartcart-frontend
 npm install
 npm run dev
 ```
