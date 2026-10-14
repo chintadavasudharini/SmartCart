@@ -1,0 +1,44 @@
+import axios from "axios";
+
+const API_BASE_URL = "http://localhost:8080/api";
+
+export const apiClient = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        "Content-Type": "application/json"
+    }
+});
+
+// Request interceptor: Automatically attach JWT Bearer token to headers
+apiClient.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem("token");
+        if (token && config.headers) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
+
+// Response interceptor: Handle 401 Unauthorized (expired or invalid token)
+apiClient.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response && error.response.status === 401) {
+            const isAuthEndpoint = error.config?.url?.includes("/auth/signin") || error.config?.url?.includes("/auth/signup");
+            if (!isAuthEndpoint) {
+                // Clear expired/invalid session
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                // If not already on signin page, redirect
+                if (window.location.pathname !== "/signin") {
+                    window.location.href = "/signin";
+                }
+            }
+        }
+        return Promise.reject(error);
+    }
+);
+
+export default apiClient;
