@@ -16,8 +16,17 @@ class WebSocketService {
 
         const token = localStorage.getItem("token");
 
+        const getBrokerUrl = (): string => {
+            if (import.meta.env.VITE_WS_URL) {
+                return import.meta.env.VITE_WS_URL as string;
+            }
+            const apiUrl = (import.meta.env.VITE_API_URL as string) || "http://localhost:8080";
+            const wsBase = apiUrl.replace(/^http(s?):\/\//, "ws$1://").replace(/\/+api\/?$/, "").replace(/\/+$/, "");
+            return `${wsBase}/ws-smartcart`;
+        };
+
         this.client = new Client({
-            brokerURL: "ws://localhost:8080/ws-smartcart",
+            brokerURL: getBrokerUrl(),
             connectHeaders: token ? { Authorization: `Bearer ${token}` } : {},
             reconnectDelay: 3000,
             heartbeatIncoming: 4000,

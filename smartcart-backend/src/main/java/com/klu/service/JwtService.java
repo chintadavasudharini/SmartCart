@@ -3,6 +3,7 @@ package com.klu.service;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.klu.model.User;
@@ -12,13 +13,14 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-    private final String SECRET_KEY =
-            "ThisIsMyVerySecretKeyForSmartCartJwtAuthentication2026";
+    @Value("${jwt.secret:ThisIsMyVerySecretKeyForSmartCartJwtAuthentication2026}")
+    private String secretKey;
+
     private final long EXPIRATION_TIME =
             1000L * 60 * 60 * 24; // 24 hours
 
     private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(User user) {
