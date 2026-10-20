@@ -366,7 +366,7 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 ### Complete End-to-End Walkthrough
 1. **User Sign Up & Login**:
    - Navigate to `http://localhost:5173/signup` and register an account.
-   - Use password visibility toggle (`👁️` / `🙈`) to verify password input.
+   - Use the SVG password visibility toggle icon (Eye / EyeOff) to verify password input.
 2. **Cart & Checkout**:
    - Browse products on the homepage and add items to the cart.
    - Proceed to `/checkout`, enter shipping information, and initiate Razorpay checkout.

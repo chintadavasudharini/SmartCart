@@ -119,8 +119,8 @@ smartcart-frontend/
 | `/cart` | `CartPage` | Public | Inspect cart items, modify quantities, and review subtotal |
 | `/checkout` | `CheckoutPage` | Authenticated | Enter shipping details and invoke Razorpay payment checkout modal |
 | `/orders` | `OrdersPage` | Authenticated | View authenticated user's order history, products, and paid status |
-| `/signin` | `SigninPage` | Public | User authentication with interactive password eye toggle (`👁️` / `🙈`) |
-| `/signup` | `SignupPage` | Public | Account registration with password eye toggle (`👁️` / `🙈`) |
+| `/signin` | `SigninPage` | Public | User authentication with interactive SVG password toggle (Eye / EyeOff) |
+| `/signup` | `SignupPage` | Public | Account registration with interactive SVG password toggle (Eye / EyeOff) |
 | `/admin` | `AdminDashboard` | `ADMIN` Role | Product management dashboard and background jobs summary widget |
 | `/admin/jobs` | `BackgroundJobMonitor`| `ADMIN` Role | Real-time STOMP WebSocket job monitor with filter chips and manual retry |
 | `/user` | `UserDashboard` | Authenticated | User account profile overview |
@@ -191,24 +191,37 @@ const handleJobUpdate = (updatedJob: BackgroundJob) => {
 
 ## 📝 Form Validation & UX Patterns
 
-### 1. Interactive Password Toggle (`👁️` / `🙈`)
-Implemented in `SigninPage.tsx` and `SignupPage.tsx` using a clean, accessible button overlay:
+### 1. Interactive SVG Password Visibility Toggle (Eye / EyeOff)
+Implemented in `SigninPage.tsx` and `SignupPage.tsx` using a clean, accessible button overlay with crisp SVG icons:
 ```tsx
-<div className="password-wrapper">
+<div className="password-input-wrapper">
     <input
+        className="form-control"
         type={showPassword ? "text" : "password"}
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         required
     />
     <button
         type="button"
         className="password-toggle-btn"
         onClick={() => setShowPassword(!showPassword)}
-        aria-label="Toggle password visibility"
+        title={showPassword ? "Hide password" : "Show password"}
+        aria-label={showPassword ? "Hide password" : "Show password"}
     >
-        {showPassword ? "🙈" : "👁️"}
+        {showPassword ? (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                <path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                <line x1="2" x2="22" y1="2" y2="22" />
+            </svg>
+        ) : (
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                <circle cx="12" cy="12" r="3" />
+            </svg>
+        )}
     </button>
 </div>
 ```
