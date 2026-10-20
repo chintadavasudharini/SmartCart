@@ -121,7 +121,8 @@ SmartCart implements strict role-based separation between consumer shopping feat
 
 | Route | View Component | Access Level | Description |
 |---|---|---|---|
-| `/` | `HomePage` | Public | Explore product catalog, featured items, and category filters |
+| `/` | `HomePage` | Public | SmartCart Home Page: Hero showcase, value proposition highlights, trending preview, and direct CTAs |
+| `/explore` | `ExplorePage` | Public | Dedicated Explore Catalog: Complete product directory with instant search, category filters, and live inventory cards |
 | `/cart` | `CartPage` | Public | Inspect cart items, modify quantities, and review subtotal |
 | `/checkout` | `CheckoutPage` | Authenticated | Enter shipping details and invoke Razorpay payment checkout modal |
 | `/orders` | `OrdersPage` | `USER` Role | View authenticated customer's personal order history, line items, and paid status |

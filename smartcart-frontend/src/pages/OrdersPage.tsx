@@ -105,7 +105,7 @@ function OrdersPage() {
                     <h1 style={{ fontSize: "28px", fontWeight: 800, margin: "0 0 6px" }}>My Orders</h1>
                     <p style={{ color: "var(--text-muted)", margin: 0 }}>View your past orders, payment receipts, and delivery status.</p>
                 </div>
-                <Link to="/" className="btn-secondary btn-sm">
+                <Link to="/explore" className="btn-secondary btn-sm">
                     ← Back to Shopping
                 </Link>
             </div>

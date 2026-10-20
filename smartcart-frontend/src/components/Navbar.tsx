@@ -32,7 +32,7 @@ function Navbar() {
                 </Link>
 
                 <nav className="navbar-links">
-                    <Link to="/" className="nav-link">
+                    <Link to="/explore" className="nav-link">
                         Explore
                     </Link>
 

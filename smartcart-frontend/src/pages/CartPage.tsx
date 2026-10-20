@@ -5,7 +5,7 @@ function CartPage() {
     return (
         <div className="container">
             <div style={{ marginBottom: "20px" }}>
-                <Link to="/" className="btn-secondary btn-sm" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                <Link to="/explore" className="btn-secondary btn-sm" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
                     ← Continue Shopping
                 </Link>
             </div>
