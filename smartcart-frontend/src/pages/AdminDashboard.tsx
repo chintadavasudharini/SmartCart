@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProductList from "../components/ProductList";
 import BackgroundJobMonitor from "./BackgroundJobMonitor";
+import AdminLoginPage from "./AdminLoginPage";
 import { addProduct } from "../api/productApi";
 import { getJobStats } from "../api/jobApi";
 import { getAllOrders } from "../api/orderApi";
 import { websocketService } from "../services/websocketService";
+import { useAuthStore } from "../store/authStore";
 import type { JobStats } from "../types/job";
 import type { Order } from "../types/order";
 
 function AdminDashboard() {
+    const user = useAuthStore((state) => state.user);
     const [activeSection, setActiveSection] = useState<"products" | "orders" | "jobs">("products");
 
     // Product state
@@ -38,6 +41,7 @@ function AdminDashboard() {
     });
 
     useEffect(() => {
+        if (!user || user.role !== "ADMIN") return;
         getJobStats().then(setJobStats).catch(() => {});
 
         // Listen for live job updates to keep stats synchronized
@@ -48,9 +52,10 @@ function AdminDashboard() {
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [user]);
 
     useEffect(() => {
+        if (!user || user.role !== "ADMIN") return;
         if (activeSection === "orders") {
             let ignore = false;
             getAllOrders()
@@ -70,7 +75,7 @@ function AdminDashboard() {
                 ignore = true;
             };
         }
-    }, [activeSection]);
+    }, [user, activeSection]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -122,6 +127,11 @@ function AdminDashboard() {
             return dateStr;
         }
     };
+
+    // If not authenticated as Admin, show Admin Login Portal directly
+    if (!user || user.role !== "ADMIN") {
+        return <AdminLoginPage />;
+    }
 
     return (
         <div className="container">

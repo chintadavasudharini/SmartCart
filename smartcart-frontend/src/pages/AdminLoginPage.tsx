@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../api/authApi";
 import { useAuthStore } from "../store/authStore";
 
 function AdminLoginPage() {
+    const user = useAuthStore((state) => state.user);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -12,6 +13,12 @@ function AdminLoginPage() {
     const login = useAuthStore((state) => state.login);
     const logout = useAuthStore((state) => state.logout);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user && user.role === "ADMIN") {
+            navigate("/admin");
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
