@@ -173,12 +173,7 @@ function AdminLoginPage() {
 
                 {/* Footer Navigation */}
                 <div className="auth-footer" style={{ marginTop: "24px", paddingTop: "18px", borderTop: "1px solid var(--border)", fontSize: "13px", textAlign: "center", color: "var(--text-muted)" }}>
-                    <div>
-                        Are you a customer? <Link to="/signin" style={{ color: "var(--primary)", fontWeight: 700 }}>Customer Sign In</Link>
-                    </div>
-                    <div style={{ marginTop: "8px" }}>
-                        <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>← Back to Store</Link>
-                    </div>
+                    <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>← Back to Store</Link>
                 </div>
             </div>
             </div>

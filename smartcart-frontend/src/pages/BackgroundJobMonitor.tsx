@@ -1,10 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { getJobs, getJobStats, retryJob } from "../api/jobApi";
 import { websocketService } from "../services/websocketService";
+import { useAuthStore } from "../store/authStore";
 import type { BackgroundJob, JobStats, JobStatus, JobType } from "../types/job";
 
 function BackgroundJobMonitor() {
+    const user = useAuthStore((state) => state.user);
     const [jobs, setJobs] = useState<BackgroundJob[]>([]);
     const [stats, setStats] = useState<JobStats>({
         totalJobs: 0,
@@ -149,6 +151,10 @@ function BackgroundJobMonitor() {
                 return <span className="job-status-badge">{status}</span>;
         }
     };
+
+    if (!user || user.role !== "ADMIN") {
+        return <Navigate to="/admin/login" replace />;
+    }
 
     return (
         <div className="admin-theme">

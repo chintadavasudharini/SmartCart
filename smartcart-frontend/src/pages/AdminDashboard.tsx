@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import ProductList from "../components/ProductList";
 import BackgroundJobMonitor from "./BackgroundJobMonitor";
-import AdminLoginPage from "./AdminLoginPage";
 import { addProduct } from "../api/productApi";
 import { getJobStats } from "../api/jobApi";
 import { getAllOrders } from "../api/orderApi";
@@ -128,9 +127,9 @@ function AdminDashboard() {
         }
     };
 
-    // If not authenticated as Admin, show Admin Login Portal directly
+    // If not authenticated as Admin, redirect to separate Admin Login page
     if (!user || user.role !== "ADMIN") {
-        return <AdminLoginPage />;
+        return <Navigate to="/admin/login" replace />;
     }
 
     return (
