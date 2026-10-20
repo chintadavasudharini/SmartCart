@@ -6,6 +6,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import SigninPage from "./pages/SigninPage";
 import SignupPage from "./pages/SignupPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminLoginPage from "./pages/AdminLoginPage";
 import UserDashboard from "./pages/UserDashboard";
 import BackgroundJobMonitor from "./pages/BackgroundJobMonitor";
 import OrdersPage from "./pages/OrdersPage";
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/signin" element={<SigninPage />} />
                 <Route path="/signup" element={<SignupPage />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin/login" element={<AdminLoginPage />} />
                 <Route path="/admin/jobs" element={<BackgroundJobMonitor />} />
                 <Route path="/orders" element={<OrdersPage />} />
                 <Route path="/user" element={<UserDashboard />} />

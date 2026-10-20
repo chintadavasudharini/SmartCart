@@ -102,8 +102,13 @@ function SigninPage({ setPage }: SigninPageProps) {
                     </button>
                 </form>
 
-                <div className="auth-footer">
-                    Don't have an account? <Link to="/signup">Create one now</Link>
+                <div className="auth-footer" style={{ display: "flex", flexDirection: "column", gap: "8px", alignItems: "center" }}>
+                    <div>
+                        Don't have an account? <Link to="/signup">Create one now</Link>
+                    </div>
+                    <div style={{ fontSize: "13px", paddingTop: "8px", borderTop: "1px solid var(--border)", width: "100%", textAlign: "center" }}>
+                        Store Administrator? <Link to="/admin/login" style={{ fontWeight: 700, color: "var(--primary)" }}>Admin Portal Login →</Link>
+                    </div>
                 </div>
             </div>
         </div>

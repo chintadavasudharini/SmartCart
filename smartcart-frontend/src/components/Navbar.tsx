@@ -57,6 +57,9 @@ function Navbar() {
                             <Link to="/signup" className="btn-primary btn-sm">
                                 Sign Up
                             </Link>
+                            <Link to="/admin/login" className="btn-secondary btn-sm" style={{ opacity: 0.9, borderColor: "var(--primary)" }} title="Admin Portal Login">
+                                🔒 Admin
+                            </Link>
                         </div>
                     ) : (
                         <div className="user-profile-menu">
