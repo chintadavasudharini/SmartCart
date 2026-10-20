@@ -186,6 +186,58 @@ function BackgroundJobMonitor() {
                 </div>
             </div>
 
+            {/* Admin Subnav Tabs */}
+            <div style={{
+                display: "flex",
+                gap: "12px",
+                marginBottom: "28px",
+                borderBottom: "2px solid var(--border)",
+                paddingBottom: "12px"
+            }}>
+                <Link
+                    to="/admin"
+                    style={{
+                        padding: "10px 22px",
+                        fontWeight: 700,
+                        fontSize: "15px",
+                        borderRadius: "8px",
+                        textDecoration: "none",
+                        background: "transparent",
+                        color: "var(--text-muted)"
+                    }}
+                >
+                    📦 Products & Catalog
+                </Link>
+                <Link
+                    to="/admin/orders"
+                    style={{
+                        padding: "10px 22px",
+                        fontWeight: 700,
+                        fontSize: "15px",
+                        borderRadius: "8px",
+                        textDecoration: "none",
+                        background: "transparent",
+                        color: "var(--text-muted)"
+                    }}
+                >
+                    📋 Orders
+                </Link>
+                <Link
+                    to="/admin/jobs"
+                    style={{
+                        padding: "10px 22px",
+                        fontWeight: 700,
+                        fontSize: "15px",
+                        borderRadius: "8px",
+                        textDecoration: "none",
+                        background: "var(--primary)",
+                        color: "#ffffff"
+                    }}
+                >
+                    ⚡ Background Jobs
+                </Link>
+            </div>
+
             {/* Metrics Dashboard */}
             <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(5, 1fr)", marginBottom: "28px" }}>
                 <div className="stat-card">

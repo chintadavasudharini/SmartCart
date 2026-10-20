@@ -36,7 +36,7 @@ function Navbar() {
                         Explore
                     </Link>
 
-                    {user && (
+                    {user && user.role !== "ADMIN" && (
                         <Link to="/orders" className="nav-link">
                             My Orders
                         </Link>
@@ -45,19 +45,24 @@ function Navbar() {
                     {user && user.role === "ADMIN" && (
                         <>
                             <Link to="/admin" className="nav-link">
-                                Admin Dashboard
+                                📦 Products
+                            </Link>
+                            <Link to="/admin/orders" className="nav-link">
+                                📋 Orders
                             </Link>
                             <Link to="/admin/jobs" className="nav-link admin-badge-link">
-                                ⚡ Background Jobs
+                                ⚡ Jobs
                             </Link>
                         </>
                     )}
 
-                    <Link to="/cart" className="nav-cart-btn">
-                        <span>🛒</span>
-                        <span>Cart</span>
-                        {totalCount > 0 && <span className="cart-badge">{totalCount}</span>}
-                    </Link>
+                    {(!user || user.role !== "ADMIN") && (
+                        <Link to="/cart" className="nav-cart-btn">
+                            <span>🛒</span>
+                            <span>Cart</span>
+                            {totalCount > 0 && <span className="cart-badge">{totalCount}</span>}
+                        </Link>
+                    )}
 
                     {!user ? (
                         <div className="nav-auth-buttons">

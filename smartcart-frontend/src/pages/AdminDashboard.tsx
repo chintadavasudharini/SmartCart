@@ -1,18 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import ProductList from "../components/ProductList";
-import BackgroundJobMonitor from "./BackgroundJobMonitor";
 import { addProduct } from "../api/productApi";
 import { getJobStats } from "../api/jobApi";
-import { getAllOrders } from "../api/orderApi";
 import { websocketService } from "../services/websocketService";
 import { useAuthStore } from "../store/authStore";
 import type { JobStats } from "../types/job";
-import type { Order } from "../types/order";
 
 function AdminDashboard() {
     const user = useAuthStore((state) => state.user);
-    const [activeSection, setActiveSection] = useState<"products" | "orders" | "jobs">("products");
 
     // Product state
     const [productName, setProductName] = useState("");
@@ -25,10 +21,6 @@ function AdminDashboard() {
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
     const [loading, setLoading] = useState(false);
-
-    // Orders state
-    const [orders, setOrders] = useState<Order[]>([]);
-    const [ordersLoading, setOrdersLoading] = useState(false);
 
     // Real backend job stats
     const [jobStats, setJobStats] = useState<JobStats>({
@@ -52,29 +44,6 @@ function AdminDashboard() {
             unsubscribe();
         };
     }, [user]);
-
-    useEffect(() => {
-        if (!user || user.role !== "ADMIN") return;
-        if (activeSection === "orders") {
-            let ignore = false;
-            getAllOrders()
-                .then((data) => {
-                    if (!ignore) {
-                        setOrders(data);
-                        setOrdersLoading(false);
-                    }
-                })
-                .catch((err) => {
-                    if (!ignore) {
-                        console.error("Failed to load orders", err);
-                        setOrdersLoading(false);
-                    }
-                });
-            return () => {
-                ignore = true;
-            };
-        }
-    }, [user, activeSection]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -109,24 +78,6 @@ function AdminDashboard() {
         }
     };
 
-    const formatCurrency = (amount: number) =>
-        new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(amount);
-
-    const formatDate = (dateStr: string) => {
-        if (!dateStr) return "-";
-        try {
-            return new Date(dateStr).toLocaleString("en-IN", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-                hour: "2-digit",
-                minute: "2-digit"
-            });
-        } catch {
-            return dateStr;
-        }
-    };
-
     // If not authenticated as Admin, redirect to separate Admin Login page
     if (!user || user.role !== "ADMIN") {
         return <Navigate to="/admin/login" replace />;
@@ -150,8 +101,12 @@ function AdminDashboard() {
                 </div>
 
                 <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
+                    <Link to="/admin/orders" className="btn-secondary btn-sm" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                        <span>📋 Customer Orders</span>
+                        <span>→</span>
+                    </Link>
                     <Link to="/admin/jobs" className="btn-secondary btn-sm" style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                        <span>⚡ Dedicated Job Monitor</span>
+                        <span>⚡ Job Monitor</span>
                         <span>→</span>
                     </Link>
                 </div>
@@ -169,36 +124,35 @@ function AdminDashboard() {
                         </span>
                     </div>
 
-                    <button
-                        onClick={() => setActiveSection("jobs")}
+                    <Link
+                        to="/admin/jobs"
                         className="btn-primary btn-sm"
-                        style={{ cursor: "pointer" }}
                     >
-                        View Live Job Table ↓
-                    </button>
+                        View Live Job Table →
+                    </Link>
                 </div>
 
                 <div className="admin-stats-grid" style={{ gridTemplateColumns: "repeat(5, 1fr)", margin: 0 }}>
-                    <div className="stat-card" style={{ cursor: "pointer" }} onClick={() => setActiveSection("jobs")}>
+                    <Link to="/admin/jobs" className="stat-card" style={{ textDecoration: "none", cursor: "pointer" }}>
                         <div className="stat-title">Total Jobs</div>
                         <div className="stat-value">{jobStats.totalJobs}</div>
-                    </div>
-                    <div className="stat-card" style={{ cursor: "pointer" }} onClick={() => setActiveSection("jobs")}>
+                    </Link>
+                    <Link to="/admin/jobs" className="stat-card" style={{ textDecoration: "none", cursor: "pointer" }}>
                         <div className="stat-title">Pending</div>
                         <div className="stat-value" style={{ color: "#b45309" }}>{jobStats.pendingJobs}</div>
-                    </div>
-                    <div className="stat-card" style={{ cursor: "pointer" }} onClick={() => setActiveSection("jobs")}>
+                    </Link>
+                    <Link to="/admin/jobs" className="stat-card" style={{ textDecoration: "none", cursor: "pointer" }}>
                         <div className="stat-title">Processing</div>
                         <div className="stat-value" style={{ color: "var(--primary)" }}>{jobStats.processingJobs}</div>
-                    </div>
-                    <div className="stat-card" style={{ cursor: "pointer" }} onClick={() => setActiveSection("jobs")}>
+                    </Link>
+                    <Link to="/admin/jobs" className="stat-card" style={{ textDecoration: "none", cursor: "pointer" }}>
                         <div className="stat-title">Completed</div>
                         <div className="stat-value" style={{ color: "var(--accent)" }}>{jobStats.completedJobs}</div>
-                    </div>
-                    <div className="stat-card" style={{ cursor: "pointer" }} onClick={() => setActiveSection("jobs")}>
+                    </Link>
+                    <Link to="/admin/jobs" className="stat-card" style={{ textDecoration: "none", cursor: "pointer" }}>
                         <div className="stat-title">Failed</div>
                         <div className="stat-value" style={{ color: "var(--danger)" }}>{jobStats.failedJobs}</div>
-                    </div>
+                    </Link>
                 </div>
             </div>
 
@@ -210,64 +164,52 @@ function AdminDashboard() {
                 borderBottom: "2px solid var(--border)",
                 paddingBottom: "12px"
             }}>
-                <button
-                    type="button"
-                    onClick={() => setActiveSection("products")}
+                <Link
+                    to="/admin"
                     style={{
                         padding: "10px 22px",
                         fontWeight: 700,
                         fontSize: "15px",
                         borderRadius: "8px",
-                        border: "none",
-                        cursor: "pointer",
-                        background: activeSection === "products" ? "var(--primary)" : "transparent",
-                        color: activeSection === "products" ? "#ffffff" : "var(--text-muted)"
+                        textDecoration: "none",
+                        background: "var(--primary)",
+                        color: "#ffffff"
                     }}
                 >
-                    📦 Products
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {
-                        setActiveSection("orders");
-                        if (orders.length === 0) setOrdersLoading(true);
-                    }}
+                    📦 Products & Catalog
+                </Link>
+                <Link
+                    to="/admin/orders"
                     style={{
                         padding: "10px 22px",
                         fontWeight: 700,
                         fontSize: "15px",
                         borderRadius: "8px",
-                        border: "none",
-                        cursor: "pointer",
-                        background: activeSection === "orders" ? "var(--primary)" : "transparent",
-                        color: activeSection === "orders" ? "#ffffff" : "var(--text-muted)"
+                        textDecoration: "none",
+                        background: "transparent",
+                        color: "var(--text-muted)"
                     }}
                 >
                     📋 Orders
-                </button>
-                <button
-                    type="button"
-                    onClick={() => setActiveSection("jobs")}
+                </Link>
+                <Link
+                    to="/admin/jobs"
                     style={{
                         padding: "10px 22px",
                         fontWeight: 700,
                         fontSize: "15px",
                         borderRadius: "8px",
-                        border: "none",
-                        cursor: "pointer",
-                        background: activeSection === "jobs" ? "var(--primary)" : "transparent",
-                        color: activeSection === "jobs" ? "#ffffff" : "var(--text-muted)"
+                        textDecoration: "none",
+                        background: "transparent",
+                        color: "var(--text-muted)"
                     }}
                 >
                     ⚡ Background Jobs
-                </button>
+                </Link>
             </div>
 
-            {/* SECTION 1: PRODUCTS */}
-            {activeSection === "products" && (
-                <>
-                    {/* Add Product Form */}
-                    <div className="cart-card" style={{ marginBottom: "40px" }}>
+            {/* Add Product Form */}
+            <div className="cart-card" style={{ marginBottom: "40px" }}>
                         <h2 style={{ fontSize: "20px", fontWeight: 800, marginBottom: "20px" }}>
                             ➕ Add New Product to Catalog
                         </h2>
@@ -330,92 +272,9 @@ function AdminDashboard() {
                         <h2 className="section-title">Manage Existing Inventory</h2>
                     </div>
                     <ProductList isAdmin={true} />
-                </>
-            )}
-
-            {/* SECTION 2: ORDERS */}
-            {activeSection === "orders" && (
-                <div className="cart-card" style={{ padding: "28px" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-                        <div>
-                            <h2 style={{ fontSize: "20px", fontWeight: 800, margin: "0 0 4px" }}>
-                                📋 Customer Orders Management
-                            </h2>
-                            <span style={{ fontSize: "14px", color: "var(--text-muted)" }}>
-                                Real-time transaction records with payment confirmation
-                            </span>
-                        </div>
-                        <span style={{ fontWeight: 700, color: "var(--primary)" }}>
-                            {orders.length} {orders.length === 1 ? "Order" : "Orders"} Recorded
-                        </span>
-                    </div>
-
-                    {ordersLoading ? (
-                        <div style={{ textAlign: "center", padding: "48px", color: "var(--text-muted)" }}>
-                            Loading customer orders...
-                        </div>
-                    ) : orders.length === 0 ? (
-                        <div style={{ textAlign: "center", padding: "48px", color: "var(--text-muted)" }}>
-                            No orders found yet.
-                        </div>
-                    ) : (
-                        <div className="table-responsive">
-                            <table className="jobs-table">
-                                <thead>
-                                    <tr>
-                                        <th>Order ID</th>
-                                        <th>Order Date</th>
-                                        <th>Total Amount</th>
-                                        <th>Status</th>
-                                        <th>Purchased Items</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {orders.map((ord) => (
-                                        <tr key={ord.orderId}>
-                                            <td style={{ fontWeight: 800 }}>#{ord.orderId}</td>
-                                            <td style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-                                                {formatDate(ord.createdAt)}
-                                            </td>
-                                            <td style={{ fontWeight: 800, color: "var(--accent)" }}>
-                                                {formatCurrency(ord.totalAmount)}
-                                            </td>
-                                            <td>
-                                                <span className={`job-status-badge ${ord.status === "PAID" ? "badge-completed" : "badge-pending"}`}>
-                                                    {ord.status === "PAID" ? "✓ PAID" : ord.status}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <div style={{ fontSize: "13px" }}>
-                                                    {ord.items && ord.items.length > 0 ? (
-                                                        ord.items.map((it, idx) => (
-                                                            <div key={idx} style={{ color: "var(--text-main)" }}>
-                                                                • {it.product ? it.product.productName : "Product"} × {it.quantity}
-                                                            </div>
-                                                        ))
-                                                    ) : (
-                                                        <span style={{ color: "var(--text-muted)" }}>-</span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
                 </div>
-            )}
-
-            {/* SECTION 3: BACKGROUND JOBS */}
-            {activeSection === "jobs" && (
-                <div>
-                    <BackgroundJobMonitor />
-                </div>
-            )}
             </div>
-        </div>
-    );
+        );
 }
 
 export default AdminDashboard;
