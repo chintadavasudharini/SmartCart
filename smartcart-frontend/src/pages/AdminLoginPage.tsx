@@ -68,7 +68,7 @@ function AdminLoginPage() {
                         Admin Portal
                     </h2>
                     <p className="auth-subtitle" style={{ fontSize: "14px", color: "var(--text-muted)", margin: 0 }}>
-                        SmartCart Control Center • Authorized Personnel Only
+                        SmartCart Control Center
                     </p>
                 </div>
 
