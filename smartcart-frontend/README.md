@@ -131,7 +131,7 @@ SmartCart implements strict role-based separation between consumer shopping feat
 
 ### 🛡️ Administrator Suite (`/admin/*`)
 
-All admin pages are styled in the **Executive Midnight Slate** theme (`.admin-theme`) and protected by role verification guards:
+All admin pages are styled in the **Executive Velvet Obsidian & Crimson Rose** theme (`.admin-theme`) and protected by role verification guards:
 
 | Route | View Component | Access Level | Description |
 |---|---|---|---|

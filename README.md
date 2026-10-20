@@ -120,7 +120,7 @@ A key design requirement in high-concurrency e-commerce systems is **never block
 
 ## 🛡️ Administrator Suite & Routing Architecture
 
-SmartCart features an isolated, executive-grade administrative control center styled in a dedicated dark **Executive Midnight Slate** theme (`.admin-theme`) with strict role-based route protection.
+SmartCart features an isolated, executive-grade administrative control center styled in a dedicated dark **Executive Velvet Obsidian & Crimson Rose** theme (`.admin-theme`) with strict role-based route protection. Storefront views use a matching **Rose & Crimson Velvet** luxury palette.
 
 ### 🌐 Admin Application Route Matrix
 
