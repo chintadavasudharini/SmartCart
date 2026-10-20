@@ -32,8 +32,12 @@ apiClient.interceptors.response.use(
                 // Clear expired/invalid session
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
-                // If not already on signin page, redirect
-                if (window.location.pathname !== "/signin") {
+                // If not already on signin or admin login page, redirect to the appropriate login portal
+                if (window.location.pathname.startsWith("/admin")) {
+                    if (window.location.pathname !== "/admin/login") {
+                        window.location.href = "/admin/login";
+                    }
+                } else if (window.location.pathname !== "/signin") {
                     window.location.href = "/signin";
                 }
             }

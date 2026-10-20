@@ -26,17 +26,17 @@ function AdminLoginPage() {
         setLoading(true);
 
         try {
-            const user = await signin({ email, password });
+            const authenticatedAdmin = await signin({ email, password });
 
             // Strict Role Enforcement: Only ADMIN role is authorized
-            if (user.role !== "ADMIN") {
+            if (authenticatedAdmin.role !== "ADMIN") {
                 logout();
                 setError("⛔ Access Denied: This portal is strictly restricted to SmartCart Administrators. Standard user accounts cannot log in here.");
                 return;
             }
 
             // Valid Admin: Authenticate and redirect to Admin Dashboard
-            login(user);
+            login(authenticatedAdmin);
             navigate("/admin");
         } catch {
             setError("Invalid administrator email or password. Please verify credentials.");

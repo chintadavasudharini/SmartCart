@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signin } from "../api/authApi";
 import { useAuthStore } from "../store/authStore";
@@ -8,29 +8,45 @@ interface SigninPageProps {
 }
 
 function SigninPage({ setPage }: SigninPageProps) {
+    const user = useAuthStore((state) => state.user);
+    const login = useAuthStore((state) => state.login);
+    const logout = useAuthStore((state) => state.logout);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const login = useAuthStore((state) => state.login);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (user) {
+            if (user.role === "ADMIN") {
+                navigate("/admin");
+            } else {
+                navigate("/");
+            }
+        }
+    }, [user, navigate]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         setError("");
         setLoading(true);
         try {
-            const user = await signin({ email, password });
-            login(user);
+            const authenticatedUser = await signin({ email, password });
+
+            // Strict Role Enforcement: /signin is for user login only
+            if (authenticatedUser.role === "ADMIN") {
+                logout();
+                setError("⛔ Access Restricted: Administrator accounts cannot log in here. Please use the Admin Portal at /admin/login.");
+                return;
+            }
+
+            login(authenticatedUser);
             if (setPage) {
-                setPage(user.role === "ADMIN" ? "admin" : "user");
+                setPage("user");
             }
-            if (user.role === "ADMIN") {
-                navigate("/admin");
-            } else {
-                navigate("/");
-            }
+            navigate("/");
         } catch {
             setError("Invalid email address or password. Please try again.");
         } finally {

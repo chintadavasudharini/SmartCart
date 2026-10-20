@@ -9,8 +9,13 @@ function Navbar() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        const wasAdmin = user?.role === "ADMIN";
         logout();
-        navigate("/signin");
+        if (wasAdmin) {
+            navigate("/admin/login");
+        } else {
+            navigate("/signin");
+        }
     };
 
     return (
