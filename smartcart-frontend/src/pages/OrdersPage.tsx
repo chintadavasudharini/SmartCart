@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMyOrders } from "../api/orderApi";
+import { createPayment, verifyPayment } from "../api/paymentApi";
+import { useAuthStore } from "../store/authStore";
 import type { Order } from "../types/order";
 
 function OrdersPage() {
+    const user = useAuthStore((state) => state.user);
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [payingOrderId, setPayingOrderId] = useState<number | null>(null);
 
-    useEffect(() => {
+    const fetchOrders = () => {
         getMyOrders()
             .then(setOrders)
             .catch((err) => {
@@ -16,7 +20,70 @@ function OrdersPage() {
                 setError("Unable to load orders. Please make sure you are signed in.");
             })
             .finally(() => setLoading(false));
+    };
+
+    useEffect(() => {
+        fetchOrders();
     }, []);
+
+    const handlePayNow = async (order: Order) => {
+        try {
+            setPayingOrderId(order.orderId);
+            const payment = await createPayment(order.orderId);
+
+            const options = {
+                key: payment.keyId,
+                amount: payment.amount,
+                currency: payment.currency,
+                name: "SmartCart Store",
+                description: `Payment for Order #${order.orderId}`,
+                order_id: payment.razorpayOrderId,
+                prefill: {
+                    name: user?.name || "",
+                    email: user?.email || ""
+                },
+                handler: async function (response: {
+                    razorpay_order_id: string;
+                    razorpay_payment_id: string;
+                    razorpay_signature: string;
+                }) {
+                    try {
+                        await verifyPayment({
+                            orderId: order.orderId,
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpaySignature: response.razorpay_signature
+                        });
+                        alert(`🎉 Payment Successful! Order #${order.orderId} is now confirmed.`);
+                        fetchOrders();
+                    } catch (err) {
+                        console.error("Payment verification error:", err);
+                        alert("Payment verification failed. Please contact support.");
+                    } finally {
+                        setPayingOrderId(null);
+                    }
+                },
+                modal: {
+                    ondismiss: function () {
+                        setPayingOrderId(null);
+                    }
+                }
+            };
+
+            const razorpay = new window.Razorpay(options);
+            razorpay.on("payment.failed", function (response: { error: unknown }) {
+                console.error("Payment failed:", response.error);
+                alert("Payment was unsuccessful. Please try again.");
+                setPayingOrderId(null);
+            });
+            razorpay.open();
+        } catch (err: unknown) {
+            console.error("Failed to initiate payment:", err);
+            const errorObj = err as { response?: { data?: { message?: string } }; message?: string };
+            alert("Unable to initiate payment: " + (errorObj?.response?.data?.message || errorObj?.message || "Please make sure backend server is running."));
+            setPayingOrderId(null);
+        }
+    };
 
     const formatCurrency = (amount: number) =>
         new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(amount);
@@ -74,7 +141,7 @@ function OrdersPage() {
                                     </span>
                                 </div>
 
-                                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
                                     <span style={{
                                         padding: "4px 12px",
                                         borderRadius: "9999px",
@@ -88,6 +155,33 @@ function OrdersPage() {
                                     <strong style={{ fontSize: "18px", color: "var(--text-main)" }}>
                                         {formatCurrency(order.totalAmount)}
                                     </strong>
+                                    {order.status !== "PAID" && (
+                                        <button
+                                            type="button"
+                                            className="btn-primary"
+                                            onClick={() => handlePayNow(order)}
+                                            disabled={payingOrderId === order.orderId}
+                                            style={{
+                                                padding: "7px 16px",
+                                                fontSize: "13px",
+                                                fontWeight: 700,
+                                                borderRadius: "var(--radius-sm)",
+                                                cursor: payingOrderId === order.orderId ? "wait" : "pointer",
+                                                display: "inline-flex",
+                                                alignItems: "center",
+                                                gap: "6px"
+                                            }}
+                                        >
+                                            {payingOrderId === order.orderId ? (
+                                                "Processing..."
+                                            ) : (
+                                                <>
+                                                    <span>💳</span>
+                                                    <span>Pay Now →</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
 
