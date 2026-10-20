@@ -1092,112 +1092,112 @@ textarea.form-control {
 }
 
 /* ===================================================
-   ADMIN THEME: Executive Velvet Obsidian & Crimson Rose
+   ADMIN THEME: Executive Medium Dark (Rose & Charcoal Slate)
 =================================================== */
 .admin-theme {
     --primary: #f43f5e;
     --primary-hover: #e11d48;
-    --primary-light: rgba(244, 63, 94, 0.18);
+    --primary-light: rgba(244, 63, 94, 0.2);
     --accent: #10b981;
     --accent-hover: #059669;
-    --bg-page: #0d070b;
-    --bg-card: #180c14;
-    --bg-card-hover: #261320;
-    --border: #381a2c;
-    --border-hover: #562744;
-    --text-main: #fff1f2;
-    --text-muted: #d4a5b4;
-    background-color: #0d070b !important;
-    color: #fff1f2;
+    --bg-page: #1f1b24;
+    --bg-card: #2a2431;
+    --bg-card-hover: #352d3d;
+    --border: #44374d;
+    --border-hover: #634f70;
+    --text-main: #fdf2f4;
+    --text-muted: #bda8b5;
+    background-color: #1f1b24 !important;
+    color: #fdf2f4;
     min-height: calc(100vh - 72px);
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .admin-theme .cart-card,
 .admin-theme .auth-card {
-    background-color: #180c14 !important;
-    border: 1px solid #381a2c !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55) !important;
-    color: #fff1f2;
+    background-color: #2a2431 !important;
+    border: 1px solid #44374d !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+    color: #fdf2f4;
 }
 
 .admin-theme .stat-card {
-    background: #180c14 !important;
-    border: 1px solid #381a2c !important;
+    background: #2a2431 !important;
+    border: 1px solid #44374d !important;
 }
 
 .admin-theme .stat-card:hover {
     border-color: #f43f5e !important;
-    background: #23111d !important;
+    background: #342c3c !important;
 }
 
 .admin-theme .stat-title {
-    color: #d4a5b4 !important;
+    color: #bda8b5 !important;
 }
 
 .admin-theme .stat-value {
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 .admin-theme .form-control {
-    background-color: #0d070b !important;
-    border: 1px solid #562744 !important;
-    color: #fff1f2 !important;
+    background-color: #19151e !important;
+    border: 1px solid #4e3d57 !important;
+    color: #fdf2f4 !important;
 }
 
 .admin-theme .form-control:focus {
     border-color: #f43f5e !important;
     box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.25) !important;
-    background-color: #180c14 !important;
+    background-color: #221c27 !important;
 }
 
 .admin-theme .form-control::placeholder {
-    color: #8c6071 !important;
+    color: #8e7a88 !important;
 }
 
 .admin-theme .form-label {
-    color: #fda4af !important;
+    color: #fbcfe8 !important;
 }
 
 .admin-theme .jobs-table {
-    border-color: #381a2c !important;
+    border-color: #44374d !important;
 }
 
 .admin-theme .jobs-table th {
-    background: #140810 !important;
-    color: #fda4af !important;
-    border-bottom: 1px solid #381a2c !important;
+    background: #221c27 !important;
+    color: #fbcfe8 !important;
+    border-bottom: 1px solid #44374d !important;
 }
 
 .admin-theme .jobs-table td {
-    border-bottom: 1px solid #381a2c !important;
-    color: #ffe4e6 !important;
+    border-bottom: 1px solid #3d3145 !important;
+    color: #fdf2f4 !important;
 }
 
 .admin-theme .jobs-table tr:hover td {
-    background: #23111d !important;
+    background: #342b3b !important;
 }
 
 .admin-theme .job-type-badge {
-    background: #261320 !important;
-    color: #fda4af !important;
-    border: 1px solid #562744 !important;
+    background: #352d3d !important;
+    color: #fbcfe8 !important;
+    border: 1px solid #564361 !important;
 }
 
 .admin-theme .btn-secondary {
-    background: #261320 !important;
-    border-color: #562744 !important;
-    color: #fff1f2 !important;
+    background: #352d3d !important;
+    border-color: #4e3f59 !important;
+    color: #fdf2f4 !important;
 }
 
 .admin-theme .btn-secondary:hover {
-    background: #3b1d31 !important;
-    border-color: #72345a !important;
+    background: #463a50 !important;
+    border-color: #634f70 !important;
 }
 
 .admin-theme .btn-outline-danger {
-    background: rgba(239, 68, 68, 0.12) !important;
-    border-color: rgba(239, 68, 68, 0.3) !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
     color: #f87171 !important;
 }
 
@@ -1207,14 +1207,14 @@ textarea.form-control {
 }
 
 .admin-theme .filter-chip {
-    background: #261320 !important;
-    border: 1px solid #562744 !important;
-    color: #d4a5b4 !important;
+    background: #352d3d !important;
+    border: 1px solid #4e3f59 !important;
+    color: #bda8b5 !important;
 }
 
 .admin-theme .filter-chip:hover {
     border-color: #fb7185 !important;
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 .admin-theme .filter-chip.active {
@@ -1224,16 +1224,16 @@ textarea.form-control {
 }
 
 .admin-theme .product-card {
-    background: #180c14 !important;
-    border: 1px solid #381a2c !important;
+    background: #2a2431 !important;
+    border: 1px solid #44374d !important;
 }
 
 .admin-theme .product-title {
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 .admin-theme .product-desc {
-    color: #d4a5b4 !important;
+    color: #bda8b5 !important;
 }
 
 .admin-theme .product-price {
@@ -1241,18 +1241,18 @@ textarea.form-control {
 }
 
 .admin-theme .section-title {
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 /* Admin Navbar Highlight */
 .navbar-header.admin-navbar-header {
-    background: #0d070b !important;
-    border-bottom: 1px solid #381a2c !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55) !important;
+    background: #1c1720 !important;
+    border-bottom: 1px solid #3d3145 !important;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25) !important;
 }
 
 .navbar-header.admin-navbar-header .nav-link {
-    color: #d4a5b4 !important;
+    color: #bda8b5 !important;
 }
 
 .navbar-header.admin-navbar-header .nav-link:hover {
@@ -1260,16 +1260,16 @@ textarea.form-control {
 }
 
 .navbar-header.admin-navbar-header .navbar-brand {
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 .navbar-header.admin-navbar-header .user-name {
-    color: #fff1f2 !important;
+    color: #ffffff !important;
 }
 
 .admin-badge-pill {
-    background: rgba(244, 63, 94, 0.2);
-    color: #fda4af;
+    background: rgba(244, 63, 94, 0.18);
+    color: #fbcfe8;
     border: 1px solid rgba(244, 63, 94, 0.45);
     padding: 2px 8px;
     border-radius: 9999px;
