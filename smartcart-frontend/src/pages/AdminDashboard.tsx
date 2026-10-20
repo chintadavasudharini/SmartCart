@@ -89,14 +89,14 @@ function AdminDashboard() {
             {/* Header */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", flexWrap: "wrap", gap: "16px" }}>
                 <div>
-                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", marginBottom: "8px", background: "rgba(59, 130, 246, 0.2)", border: "1px solid #3b82f6", color: "#60a5fa", padding: "4px 12px", borderRadius: "9999px", fontSize: "13px", fontWeight: 700 }}>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", marginBottom: "8px", background: "rgba(244, 63, 94, 0.2)", border: "1px solid #f43f5e", color: "#fda4af", padding: "4px 12px", borderRadius: "9999px", fontSize: "13px", fontWeight: 700 }}>
                         🛡️ SmartCart Administrator
                     </div>
                     <h1 style={{ fontSize: "32px", fontWeight: 800, textAlign: "left", letterSpacing: "-0.5px", margin: "0 0 6px" }}>
                         ⚡ Admin Management Dashboard
                     </h1>
                     <p style={{ color: "var(--text-muted)", fontSize: "15px", margin: 0 }}>
-                        Welcome back, <strong style={{ color: "#38bdf8" }}>SmartCart Administrator</strong> ({user?.email}) • Control Center
+                        Welcome back, <strong style={{ color: "#fb7185" }}>SmartCart Administrator</strong> ({user?.email}) • Control Center
                     </p>
                 </div>
 

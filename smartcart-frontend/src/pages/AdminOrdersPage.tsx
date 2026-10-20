@@ -100,9 +100,9 @@ function AdminOrdersPage() {
                             alignItems: "center",
                             gap: "6px",
                             marginBottom: "8px",
-                            background: "rgba(59, 130, 246, 0.2)",
-                            border: "1px solid #3b82f6",
-                            color: "#60a5fa",
+                            background: "rgba(244, 63, 94, 0.2)",
+                            border: "1px solid #f43f5e",
+                            color: "#fda4af",
                             padding: "4px 12px",
                             borderRadius: "9999px",
                             fontSize: "13px",
@@ -192,7 +192,7 @@ function AdminOrdersPage() {
                     </div>
                     <div className="stat-card">
                         <div className="stat-title">Total Gross Revenue</div>
-                        <div className="stat-value" style={{ color: "#38bdf8" }}>{formatCurrency(totalRevenue)}</div>
+                        <div className="stat-value" style={{ color: "#fb7185" }}>{formatCurrency(totalRevenue)}</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-title">Average Order Value</div>
@@ -289,7 +289,7 @@ function AdminOrdersPage() {
                                 <tbody>
                                     {filteredOrders.map((ord) => (
                                         <tr key={ord.orderId}>
-                                            <td style={{ fontWeight: 800, color: "#38bdf8" }}>
+                                            <td style={{ fontWeight: 800, color: "#fb7185" }}>
                                                 #{ord.orderId}
                                             </td>
                                             <td style={{ fontSize: "13px", color: "var(--text-muted)" }}>

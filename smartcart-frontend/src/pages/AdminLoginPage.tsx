@@ -55,14 +55,14 @@ function AdminLoginPage() {
                         width: "60px",
                         height: "60px",
                         borderRadius: "50%",
-                        background: "rgba(37, 99, 235, 0.15)",
-                        color: "#38bdf8",
+                        background: "rgba(244, 63, 94, 0.15)",
+                        color: "#fb7185",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         fontSize: "28px",
                         margin: "0 auto 12px",
-                        border: "1px solid rgba(59, 130, 246, 0.3)"
+                        border: "1px solid rgba(244, 63, 94, 0.35)"
                     }}>
                         🔒
                     </div>
@@ -72,9 +72,9 @@ function AdminLoginPage() {
                         gap: "6px",
                         padding: "4px 12px",
                         borderRadius: "9999px",
-                        background: "rgba(59, 130, 246, 0.2)",
-                        border: "1px solid #3b82f6",
-                        color: "#60a5fa",
+                        background: "rgba(244, 63, 94, 0.2)",
+                        border: "1px solid #f43f5e",
+                        color: "#fda4af",
                         fontSize: "12px",
                         fontWeight: 800,
                         letterSpacing: "0.5px",

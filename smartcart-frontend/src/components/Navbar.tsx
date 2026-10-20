@@ -25,7 +25,7 @@ function Navbar() {
                     <span className="brand-logo-icon">⚡</span>
                     <span>Smart<span className="brand-accent">Cart</span></span>
                     {user?.role === "ADMIN" && (
-                        <span className="admin-badge-pill" style={{ marginLeft: "10px", fontSize: "12px", padding: "3px 10px", background: "rgba(59, 130, 246, 0.25)", color: "#60a5fa", border: "1px solid #3b82f6" }}>
+                        <span className="admin-badge-pill" style={{ marginLeft: "10px", fontSize: "12px", padding: "3px 10px", background: "rgba(244, 63, 94, 0.2)", color: "#fda4af", border: "1px solid #f43f5e" }}>
                             🛡️ SmartCart Administrator
                         </span>
                     )}
