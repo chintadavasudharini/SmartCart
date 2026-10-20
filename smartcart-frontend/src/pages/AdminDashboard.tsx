@@ -52,11 +52,23 @@ function AdminDashboard() {
 
     useEffect(() => {
         if (activeSection === "orders") {
-            setOrdersLoading(true);
+            let ignore = false;
             getAllOrders()
-                .then(setOrders)
-                .catch((err) => console.error("Failed to load orders", err))
-                .finally(() => setOrdersLoading(false));
+                .then((data) => {
+                    if (!ignore) {
+                        setOrders(data);
+                        setOrdersLoading(false);
+                    }
+                })
+                .catch((err) => {
+                    if (!ignore) {
+                        console.error("Failed to load orders", err);
+                        setOrdersLoading(false);
+                    }
+                });
+            return () => {
+                ignore = true;
+            };
         }
     }, [activeSection]);
 
@@ -203,7 +215,10 @@ function AdminDashboard() {
                 </button>
                 <button
                     type="button"
-                    onClick={() => setActiveSection("orders")}
+                    onClick={() => {
+                        setActiveSection("orders");
+                        if (orders.length === 0) setOrdersLoading(true);
+                    }}
                     style={{
                         padding: "10px 22px",
                         fontWeight: 700,

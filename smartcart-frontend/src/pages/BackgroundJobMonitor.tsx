@@ -20,10 +20,10 @@ function BackgroundJobMonitor() {
     const [isWsConnected, setIsWsConnected] = useState(false);
     const [retryingJobId, setRetryingJobId] = useState<number | null>(null);
 
-    // Initial data fetch
+    // Manual refresh action
     const fetchInitialData = async () => {
+        setLoading(true);
         try {
-            setLoading(true);
             const [jobsData, statsData] = await Promise.all([
                 getJobs(),
                 getJobStats()
@@ -40,7 +40,23 @@ function BackgroundJobMonitor() {
     };
 
     useEffect(() => {
-        fetchInitialData();
+        let isMounted = true;
+        Promise.all([getJobs(), getJobStats()])
+            .then(([jobsData, statsData]) => {
+                if (isMounted) {
+                    setJobs(jobsData);
+                    setStats(statsData);
+                    setError("");
+                    setLoading(false);
+                }
+            })
+            .catch((err: unknown) => {
+                if (isMounted) {
+                    console.error("Failed to load jobs", err);
+                    setError("Unable to load background jobs. Please verify admin privileges.");
+                    setLoading(false);
+                }
+            });
 
         // Connect WebSocket and subscribe to STOMP /topic/jobs
         websocketService.connect(() => {
@@ -73,6 +89,7 @@ function BackgroundJobMonitor() {
         }, 3000);
 
         return () => {
+            isMounted = false;
             unsubscribe();
             clearInterval(interval);
         };
