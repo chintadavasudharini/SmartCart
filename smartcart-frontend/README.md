@@ -84,11 +84,13 @@ smartcart-frontend/
     │   ├── HomePage.tsx           # Hero section, category filters & product grid
     │   ├── CartPage.tsx           # Full-page shopping cart summary & subtotal computation
     │   ├── CheckoutPage.tsx       # Order review & payment trigger
-    │   ├── OrdersPage.tsx         # Customer order history with items, prices, and status
-    │   ├── SigninPage.tsx         # Sign in page with password visibility toggle
-    │   ├── SignupPage.tsx         # Sign up page with password visibility toggle
-    │   ├── AdminDashboard.tsx     # Admin dashboard with catalog management & job metrics
-    │   ├── BackgroundJobMonitor.tsx # Live STOMP WebSocket job monitor with retry controls
+    │   ├── OrdersPage.tsx         # Customer personal order history with items, prices, and status
+    │   ├── SigninPage.tsx         # Customer sign in page (role: "USER" only)
+    │   ├── SignupPage.tsx         # Customer registration with interactive SVG password toggle
+    │   ├── AdminDashboard.tsx     # Admin dashboard with catalog management & inventory CRUD
+    │   ├── AdminLoginPage.tsx     # Dedicated admin login portal (role: "ADMIN" only)
+    │   ├── AdminOrdersPage.tsx    # Admin customer orders directory with financial metrics
+    │   ├── BackgroundJobMonitor.tsx # Real-time STOMP WebSocket job monitor with retry controls
     │   └── UserDashboard.tsx      # User account profile summary
     │
     ├── schemas/                   # Zod runtime validation schemas
@@ -113,17 +115,46 @@ smartcart-frontend/
 
 ## 🧭 Application Routes & Page Matrix
 
+SmartCart implements strict role-based separation between consumer shopping features and administrative operations.
+
+### 🛍️ Public & Customer Storefront
+
 | Route | View Component | Access Level | Description |
 |---|---|---|---|
 | `/` | `HomePage` | Public | Explore product catalog, featured items, and category filters |
 | `/cart` | `CartPage` | Public | Inspect cart items, modify quantities, and review subtotal |
 | `/checkout` | `CheckoutPage` | Authenticated | Enter shipping details and invoke Razorpay payment checkout modal |
-| `/orders` | `OrdersPage` | Authenticated | View authenticated user's order history, products, and paid status |
-| `/signin` | `SigninPage` | Public | User authentication with interactive SVG password toggle (Eye / EyeOff) |
-| `/signup` | `SignupPage` | Public | Account registration with interactive SVG password toggle (Eye / EyeOff) |
-| `/admin` | `AdminDashboard` | `ADMIN` Role | Product management dashboard and background jobs summary widget |
-| `/admin/jobs` | `BackgroundJobMonitor`| `ADMIN` Role | Real-time STOMP WebSocket job monitor with filter chips and manual retry |
-| `/user` | `UserDashboard` | Authenticated | User account profile overview |
+| `/orders` | `OrdersPage` | `USER` Role | View authenticated customer's personal order history, line items, and paid status |
+| `/signin` | `SigninPage` | Public (Users Only) | Customer authentication with SVG password toggle. Administrator accounts are blocked with a redirection notice to `/admin/login`. |
+| `/signup` | `SignupPage` | Public | Account registration (defaults to `USER` role) with live input validation |
+| `/user` | `UserDashboard` | `USER` Role | Customer account profile overview |
+
+### 🛡️ Administrator Suite (`/admin/*`)
+
+All admin pages are styled in the **Executive Midnight Slate** theme (`.admin-theme`) and protected by role verification guards:
+
+| Route | View Component | Access Level | Description |
+|---|---|---|---|
+| `/admin` | `AdminDashboard` | `ADMIN` Role | Inventory management: insert new catalog products, modify stock, delete listings, and view live job telemetry. |
+| `/admin/login` | `AdminLoginPage` | Public (Admins Only) | Dedicated admin authentication portal. Rejects non-admin users with an explicit unauthorized warning. |
+| `/admin/orders` | `AdminOrdersPage` | `ADMIN` Role | All platform customer orders directory with financial metrics (Gross Revenue, Paid Count, Average Order Value) and search/filter. |
+| `/admin/jobs` | `BackgroundJobMonitor`| `ADMIN` Role | Real-time STOMP WebSocket job monitor with filter chips and manual retry triggers for Email, PDF Invoices, and Notifications. |
+
+---
+
+## 🔐 Dual-Portal Authentication & Navigation Architecture
+
+1. **Portal Enforcement**:
+   - Customer authentication is strictly isolated at `/signin`.
+   - Administrator authentication is strictly isolated at `/admin/login`.
+   - Admin default credentials: `admin@smartcart.com` / `admin@smartcart`.
+2. **Context-Aware Navbar**:
+   - Regular customers see: `Explore`, `My Orders`, `Cart` (with dynamic item badge), and a standalone `Logout` button (redirects to `/signin`).
+   - Store administrators see: `🛡️ SmartCart Administrator` badge pill, `Explore`, `📦 Products` (`/admin`), `📋 Orders` (`/admin/orders`), `⚡ Jobs` (`/admin/jobs`), and a standalone `Logout` button (redirects to `/admin/login`).
+3. **Session Interceptor Redirection**:
+   - The central Axios client (`apiClient.ts`) detects expired JWT tokens (401 responses).
+   - If a 401 occurs on any `/admin/*` route, the user is redirected to `/admin/login`.
+   - If a 401 occurs on storefront routes, the user is redirected to `/signin`.
 
 ---
 

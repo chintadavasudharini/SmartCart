@@ -25,6 +25,7 @@ SmartCart is an end-to-end full-stack e-commerce solution architected for high t
 
 - [Architectural Overview](#-architectural-overview)
 - [Post-Payment Asynchronous Pipeline](#-post-payment-asynchronous-pipeline)
+- [Administrator Suite & Routing Architecture](#-administrator-suite--routing-architecture)
 - [Repository Structure](#-repository-structure)
 - [Tech Stack Deep-Dive](#-tech-stack-deep-dive)
 - [Database Schema & Data Model](#-database-schema--data-model)
@@ -117,6 +118,58 @@ A key design requirement in high-concurrency e-commerce systems is **never block
 
 ---
 
+## 🛡️ Administrator Suite & Routing Architecture
+
+SmartCart features an isolated, executive-grade administrative control center styled in a dedicated dark **Executive Midnight Slate** theme (`.admin-theme`) with strict role-based route protection.
+
+### 🌐 Admin Application Route Matrix
+
+All administrative operations are strictly consolidated under the `/admin` path:
+
+| URL | View Component | Access Guard | Functional Scope |
+|:---|:---|:---|:---|
+| **[`/admin`](http://localhost:5173/admin)** | `AdminDashboard` | `role: "ADMIN"` | **Inventory & Catalog Management**: Insert new products with live preview, update inventory levels, delete listings, and view aggregate job telemetry cards. |
+| **[`/admin/login`](http://localhost:5173/admin/login)** | `AdminLoginPage` | Public (Admin Only) | **Executive Authentication Portal**: Dedicated security gateway restricting access exclusively to administrator accounts. Rejects customer accounts with explicit access-denied warnings. |
+| **[`/admin/orders`](http://localhost:5173/admin/orders)** | `AdminOrdersPage` | `role: "ADMIN"` | **Customer Orders Management**: Review all platform orders, inspect purchased items, track payment confirmation, and monitor financial metrics (Gross Revenue, Paid Order Count, Average Order Value). |
+| **[`/admin/jobs`](http://localhost:5173/admin/jobs)** | `BackgroundJobMonitor` | `role: "ADMIN"` | **Real-Time Job Telemetry**: STOMP WebSocket console streaming asynchronous worker executions (Email, Invoice PDF, Notifications) with live status badges and manual retry controls. |
+
+### 🔐 Strict Dual-Portal Authentication
+
+To prevent privilege confusion and maintain airtight security boundaries:
+
+```
+                  ┌──────────────────────────────────────────────┐
+                  │               AUTH ROUTE GUARD               │
+                  └──────────────────────┬───────────────────────┘
+                                         │
+                 ┌───────────────────────┴───────────────────────┐
+                 │                                               │
+                 ▼                                               ▼
+     ┌───────────────────────┐                       ┌───────────────────────┐
+     │  /signin (Users Only) │                       │ /admin/login (Admins) │
+     └───────────┬───────────┘                       └───────────┬───────────┘
+                 │                                               │
+      ┌──────────┴──────────┐                         ┌──────────┴──────────┐
+      │                     │                         │                     │
+      ▼                     ▼                         ▼                     ▼
+[Role: USER]         [Role: ADMIN]              [Role: ADMIN]         [Role: USER]
+      │                     │                         │                     │
+   Allowed            Access Denied!               Allowed            Access Denied!
+Redirect: "/"     "Use /admin/login portal"    Redirect: "/admin"   "Restricted to Admins"
+```
+
+1. **User Sign-In (`/signin`)**:
+   - Strictly reserved for customer accounts.
+   - Any attempt to sign in with an `ADMIN` account is intercepted and rejected with a helpful redirect notice to `/admin/login`.
+2. **Admin Portal (`/admin/login`)**:
+   - Strictly reserved for `ADMIN` role credentials.
+   - Standard users attempting to authenticate are barred with: `⛔ Access Denied: This portal is strictly restricted to SmartCart Administrators`.
+3. **Role-Aware Navigation & Interceptors**:
+   - **Navbar**: When logged in as an administrator, the navigation bar displays the `🛡️ SmartCart Administrator` badge, dedicated admin routes (`📦 Products`, `📋 Orders`, `⚡ Jobs`), and a standalone **Logout** button that redirects directly back to `/admin/login`.
+   - **Axios 401 Interceptor**: If an administrator's session expires while navigating `/admin/*`, the API client automatically routes them to `/admin/login` rather than the public `/signin` page.
+
+---
+
 ## 📂 Repository Structure
 
 The project is structured as a clean, production-ready multi-module workspace:
@@ -153,7 +206,7 @@ SmartCart/
     └── src/
         ├── api/                   # Axios API clients with JWT interceptors
         ├── components/            # Reusable UI components (Navbar, Cart, ProductCard)
-        ├── pages/                 # Route views (Home, Checkout, Orders, JobMonitor)
+        ├── pages/                 # Route views (Home, Checkout, Orders, Signin, Signup, AdminDashboard, AdminLoginPage, AdminOrdersPage, BackgroundJobMonitor)
         ├── schemas/               # Zod validation schemas for forms
         ├── services/              # STOMP WebSocket client singleton
         ├── store/                 # Zustand global state (Auth, Cart)
@@ -364,21 +417,24 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 ## 🧪 Verification & Testing
 
 ### Complete End-to-End Walkthrough
-1. **User Sign Up & Login**:
-   - Navigate to `http://localhost:5173/signup` and register an account.
-   - Use the SVG password visibility toggle icon (Eye / EyeOff) to verify password input.
-2. **Cart & Checkout**:
-   - Browse products on the homepage and add items to the cart.
-   - Proceed to `/checkout`, enter shipping information, and initiate Razorpay checkout.
-3. **Payment Completion**:
-   - Pay using test credentials (Netbanking / Card).
-   - Upon verification, order is instantly confirmed and redirected.
-4. **Live Job Monitoring (Admin)**:
-   - Sign in as an administrator and navigate to `http://localhost:5173/admin/jobs`.
-   - Observe real-time job state transitions (`PENDING` $\to$ `PROCESSING` $\to$ `COMPLETED`) via WebSocket.
-   - Check the generated invoice saved in `smartcart-backend/invoices/invoice_{orderId}.pdf`.
-5. **View Orders**:
-   - Navigate to `/orders` to inspect the updated order history.
+1. **Customer Sign Up & User Login**:
+   - Register a customer account at `http://localhost:5173/signup`.
+   - Log in at `http://localhost:5173/signin` (dedicated customer portal). Use the SVG password toggle (Eye / EyeOff).
+2. **Cart & Payment Checkout**:
+   - Browse products and add items to your shopping cart.
+   - Proceed to `/checkout`, submit validated shipping credentials, and complete payment via Razorpay test modal.
+3. **Customer Orders**:
+   - Navigate to `/orders` to verify instant order confirmation and itemized receipts.
+4. **Admin Portal Login**:
+   - Navigate to `http://localhost:5173/admin/login` (dedicated executive portal).
+   - Sign in with administrator credentials:
+     - **Email**: `admin@smartcart.com`
+     - **Password**: `admin@smartcart`
+5. **Admin Operations Suite**:
+   - **Catalog & Inventory (`/admin`)**: Add new inventory listings, modify stock, or delete discontinued products.
+   - **Orders Directory (`/admin/orders`)**: Review real-time customer purchases, gross revenue, status filters, and line items.
+   - **Background Job Telemetry (`/admin/jobs`)**: Observe asynchronous post-payment jobs (`PENDING` $\to$ `PROCESSING` $\to$ `COMPLETED`) over live STOMP WebSocket. Check generated invoice PDFs in `smartcart-backend/invoices/`.
+   - **Logout**: Click the standalone navbar **Logout** button to securely clear the admin session and return to `/admin/login`.
 
 ---
 
