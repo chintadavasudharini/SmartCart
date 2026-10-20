@@ -55,15 +55,33 @@ function AdminLoginPage() {
                         width: "60px",
                         height: "60px",
                         borderRadius: "50%",
-                        background: "rgba(37, 99, 235, 0.1)",
-                        color: "var(--primary)",
+                        background: "rgba(37, 99, 235, 0.15)",
+                        color: "#38bdf8",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         fontSize: "28px",
-                        margin: "0 auto 12px"
+                        margin: "0 auto 12px",
+                        border: "1px solid rgba(59, 130, 246, 0.3)"
                     }}>
                         🔒
+                    </div>
+                    <div style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        padding: "4px 12px",
+                        borderRadius: "9999px",
+                        background: "rgba(59, 130, 246, 0.2)",
+                        border: "1px solid #3b82f6",
+                        color: "#60a5fa",
+                        fontSize: "12px",
+                        fontWeight: 800,
+                        letterSpacing: "0.5px",
+                        marginBottom: "10px",
+                        textTransform: "uppercase"
+                    }}>
+                        🛡️ SmartCart Administrator
                     </div>
                     <h2 className="auth-title" style={{ fontSize: "26px", fontWeight: 800, margin: "0 0 6px" }}>
                         Admin Portal
