@@ -151,7 +151,8 @@ function BackgroundJobMonitor() {
     };
 
     return (
-        <div className="container">
+        <div className="admin-theme">
+            <div className="container">
             {/* Header Breadcrumb & Live Indicator */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", flexWrap: "wrap", gap: "12px" }}>
                 <div>
@@ -340,6 +341,7 @@ function BackgroundJobMonitor() {
                     </table>
                 </div>
             )}
+            </div>
         </div>
     );
 }

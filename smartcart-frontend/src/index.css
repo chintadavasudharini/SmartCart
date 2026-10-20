@@ -1090,3 +1090,191 @@ textarea.form-control {
     50% { opacity: 0.65; }
     100% { opacity: 1; }
 }
+
+/* ===================================================
+   ADMIN THEME: Executive Midnight Slate & Royal Azure
+=================================================== */
+.admin-theme {
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: rgba(59, 130, 246, 0.15);
+    --accent: #10b981;
+    --accent-hover: #059669;
+    --bg-page: #0b0f19;
+    --bg-card: #111827;
+    --bg-card-hover: #1f2937;
+    --border: #1e293b;
+    --border-hover: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    background-color: #0b0f19 !important;
+    color: #f8fafc;
+    min-height: calc(100vh - 72px);
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.admin-theme .cart-card,
+.admin-theme .auth-card {
+    background-color: #111827 !important;
+    border: 1px solid #1e293b !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
+    color: #f8fafc;
+}
+
+.admin-theme .stat-card {
+    background: #111827 !important;
+    border: 1px solid #1e293b !important;
+}
+
+.admin-theme .stat-card:hover {
+    border-color: #3b82f6 !important;
+    background: #172033 !important;
+}
+
+.admin-theme .stat-title {
+    color: #94a3b8 !important;
+}
+
+.admin-theme .stat-value {
+    color: #f8fafc !important;
+}
+
+.admin-theme .form-control {
+    background-color: #0b0f19 !important;
+    border: 1px solid #334155 !important;
+    color: #f8fafc !important;
+}
+
+.admin-theme .form-control:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+    background-color: #0f172a !important;
+}
+
+.admin-theme .form-control::placeholder {
+    color: #64748b !important;
+}
+
+.admin-theme .form-label {
+    color: #cbd5e1 !important;
+}
+
+.admin-theme .jobs-table {
+    border-color: #1e293b !important;
+}
+
+.admin-theme .jobs-table th {
+    background: #0f172a !important;
+    color: #94a3b8 !important;
+    border-bottom: 1px solid #1e293b !important;
+}
+
+.admin-theme .jobs-table td {
+    border-bottom: 1px solid #1e293b !important;
+    color: #e2e8f0 !important;
+}
+
+.admin-theme .jobs-table tr:hover td {
+    background: #1e293b !important;
+}
+
+.admin-theme .job-type-badge {
+    background: #1e293b !important;
+    color: #93c5fd !important;
+    border: 1px solid #334155 !important;
+}
+
+.admin-theme .btn-secondary {
+    background: #1e293b !important;
+    border-color: #334155 !important;
+    color: #f1f5f9 !important;
+}
+
+.admin-theme .btn-secondary:hover {
+    background: #334155 !important;
+    border-color: #475569 !important;
+}
+
+.admin-theme .btn-outline-danger {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: #f87171 !important;
+}
+
+.admin-theme .btn-outline-danger:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+}
+
+.admin-theme .filter-chip {
+    background: #1e293b !important;
+    border: 1px solid #334155 !important;
+    color: #94a3b8 !important;
+}
+
+.admin-theme .filter-chip:hover {
+    border-color: #60a5fa !important;
+    color: #f8fafc !important;
+}
+
+.admin-theme .filter-chip.active {
+    background: #2563eb !important;
+    color: #ffffff !important;
+    border-color: #3b82f6 !important;
+}
+
+.admin-theme .product-card {
+    background: #111827 !important;
+    border: 1px solid #1e293b !important;
+}
+
+.admin-theme .product-title {
+    color: #f8fafc !important;
+}
+
+.admin-theme .product-desc {
+    color: #94a3b8 !important;
+}
+
+.admin-theme .product-price {
+    color: #38bdf8 !important;
+}
+
+.admin-theme .section-title {
+    color: #f8fafc !important;
+}
+
+/* Admin Navbar Highlight */
+.navbar-header.admin-navbar-header {
+    background: #0b0f19 !important;
+    border-bottom: 1px solid #1e293b !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+}
+
+.navbar-header.admin-navbar-header .nav-link {
+    color: #94a3b8 !important;
+}
+
+.navbar-header.admin-navbar-header .nav-link:hover {
+    color: #38bdf8 !important;
+}
+
+.navbar-header.admin-navbar-header .navbar-brand {
+    color: #f8fafc !important;
+}
+
+.navbar-header.admin-navbar-header .user-name {
+    color: #f8fafc !important;
+}
+
+.admin-badge-pill {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}

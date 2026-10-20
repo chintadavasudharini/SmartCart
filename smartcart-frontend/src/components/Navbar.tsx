@@ -14,11 +14,12 @@ function Navbar() {
     };
 
     return (
-        <header className="navbar-header">
+        <header className={`navbar-header ${user?.role === "ADMIN" ? "admin-navbar-header" : ""}`}>
             <div className="navbar-container">
                 <Link to="/" className="navbar-brand">
                     <span className="brand-logo-icon">⚡</span>
                     <span>Smart<span className="brand-accent">Cart</span></span>
+                    {user?.role === "ADMIN" && <span className="admin-badge-pill">Admin</span>}
                 </Link>
 
                 <nav className="navbar-links">

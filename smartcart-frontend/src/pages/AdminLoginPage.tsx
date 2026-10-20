@@ -46,7 +46,8 @@ function AdminLoginPage() {
     };
 
     return (
-        <div className="auth-wrapper" style={{ minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="admin-theme">
+            <div className="auth-wrapper" style={{ minHeight: "85vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <div className="auth-card" style={{ maxWidth: "440px", width: "100%", borderTop: "4px solid var(--primary)" }}>
                 {/* Security Badge Header */}
                 <div className="auth-header" style={{ textAlign: "center", marginBottom: "28px" }}>
@@ -161,6 +162,7 @@ function AdminLoginPage() {
                         <Link to="/" style={{ color: "var(--text-muted)", textDecoration: "none" }}>← Back to Store</Link>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     );

@@ -134,7 +134,8 @@ function AdminDashboard() {
     }
 
     return (
-        <div className="container">
+        <div className="admin-theme">
+            <div className="container">
             {/* Header */}
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", flexWrap: "wrap", gap: "16px" }}>
                 <div>
@@ -410,6 +411,7 @@ function AdminDashboard() {
                     <BackgroundJobMonitor />
                 </div>
             )}
+            </div>
         </div>
     );
 }
