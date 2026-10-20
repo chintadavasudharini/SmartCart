@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import ProductList from "../components/ProductList";
 
 function HomePage() {
     return (
@@ -60,21 +59,20 @@ function HomePage() {
                 </div>
             </div>
 
-            {/* Section Heading & Products Preview */}
-            <div className="section-header">
-                <div>
-                    <h2 className="section-title">Trending Products</h2>
-                    <p style={{ color: "var(--text-muted)", fontSize: "14px", margin: "4px 0 0" }}>
-                        Popular picks loved by our customers this week
-                    </p>
-                </div>
-                <Link to="/explore" style={{ color: "var(--primary)", fontWeight: 700, fontSize: "15px", display: "inline-flex", alignItems: "center", gap: "6px" }}>
-                    <span>Browse All in Explore</span>
+            {/* Quick Explore Banner Card */}
+            <div className="cart-card" style={{ padding: "36px 32px", textAlign: "center", marginTop: "24px" }}>
+                <span style={{ fontSize: "40px", display: "block", marginBottom: "12px" }}>🛍️</span>
+                <h2 style={{ fontSize: "24px", fontWeight: 800, margin: "0 0 8px" }}>
+                    Ready to Explore Our Catalog?
+                </h2>
+                <p style={{ color: "var(--text-muted)", fontSize: "15px", maxWidth: "560px", margin: "0 auto 24px" }}>
+                    Find the latest electronics, wearables, laptops, audio gear, and lifestyle accessories with fast search and instant checkout.
+                </p>
+                <Link to="/explore" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "12px 32px", fontSize: "15px", fontWeight: 700 }}>
+                    <span>Browse All Products</span>
                     <span>→</span>
                 </Link>
             </div>
-
-            <ProductList />
         </div>
     );
 }
