@@ -64,13 +64,9 @@ function Navbar() {
                             </Link>
                         </div>
                     ) : (
-                        <div className="user-profile-menu">
-                            <span className="user-avatar">{user.name.charAt(0).toUpperCase()}</span>
-                            <span className="user-name">{user.name}</span>
-                            <button onClick={handleLogout} className="btn-outline-danger">
-                                Logout
-                            </button>
-                        </div>
+                        <button onClick={handleLogout} className="btn-outline-danger" style={{ padding: "8px 18px", borderRadius: "var(--radius-full)", cursor: "pointer" }}>
+                            Logout
+                        </button>
                     )}
                 </nav>
             </div>
