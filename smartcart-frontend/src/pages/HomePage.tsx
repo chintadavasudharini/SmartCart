@@ -17,11 +17,8 @@ function HomePage() {
                         Experience frictionless shopping with instant checkout, encrypted payments via Razorpay, and automated digital invoice delivery.
                     </p>
                     <div className="hero-actions">
-                        <Link to="/explore" className="btn-primary" style={{ padding: "14px 32px", fontSize: "16px", fontWeight: 700, borderRadius: "var(--radius-full)" }}>
+                        <Link to="/explore" className="btn-primary" style={{ padding: "14px 34px", fontSize: "16px", fontWeight: 700, borderRadius: "var(--radius-full)" }}>
                             Explore All Products →
-                        </Link>
-                        <Link to="/cart" className="btn-secondary" style={{ padding: "14px 28px", fontSize: "16px", fontWeight: 700, background: "rgba(255,255,255,0.15)", color: "#fff", borderColor: "rgba(255,255,255,0.3)", borderRadius: "var(--radius-full)" }}>
-                            View Cart 🛒
                         </Link>
                     </div>
                 </div>
